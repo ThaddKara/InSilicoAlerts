@@ -19,13 +19,12 @@ namespace InSilicoAlerts.Controllers
         [HttpPost]
         public async Task<IActionResult> webhook([FromQuery] string key)
         {
-            try
-            {
+            
                 AmazonDynamoDBClient client = new AmazonDynamoDBClient();
                 Table credtable = Table.LoadTable(client, "InSilico");
                 ScanOperationConfig config = new ScanOperationConfig();
                 ScanFilter filter = new ScanFilter();
-                filter.AddCondition("id", ScanOperator.IsNotNull);
+                filter.AddCondition("key", ScanOperator.IsNotNull);
                 config.Filter = filter;
                 Search search = credtable.Scan(config);
                 List<Document> docs = await search.GetRemainingAsync();
@@ -105,12 +104,12 @@ namespace InSilicoAlerts.Controllers
                 }
 
                 return Ok();
-            }
+            /*}
             catch
             {
                 Console.WriteLine("error");
                 return BadRequest();
-            }
+            }*/
         }
     }
 }
