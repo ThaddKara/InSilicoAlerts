@@ -19,7 +19,8 @@ namespace InSilicoAlerts.Controllers
         [HttpPost]
         public async Task<IActionResult> webhook([FromQuery] string key)
         {
-            
+            try
+            {
                 AmazonDynamoDBClient client = new AmazonDynamoDBClient();
                 Table credtable = Table.LoadTable(client, "InSilico");
                 ScanOperationConfig config = new ScanOperationConfig();
@@ -104,12 +105,12 @@ namespace InSilicoAlerts.Controllers
                 }
 
                 return Ok();
-            /*}
+            }
             catch
             {
                 Console.WriteLine("error");
                 return BadRequest();
-            }*/
+            }
         }
     }
 }
